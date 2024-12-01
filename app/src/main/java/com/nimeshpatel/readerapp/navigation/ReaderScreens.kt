@@ -8,9 +8,9 @@ enum class ReaderScreens {
     SplashScreen,
     LoginScreen,
     CreateAccountScreen,
-    ReaderHomeScreen,
+    HomeScreen,
     SearchScreen,
-    DetailScreen,
-    UpdateScreen,
-    ReaderStatsScreen;
+    BookDetailScreen,
+    BookUpdateScreen,
+    BookStatsScreen;
 }
