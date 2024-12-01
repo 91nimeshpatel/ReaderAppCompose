@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ReaderApp</string>
+    <string name="sure">Sure</string>
+    <string name="action">action</string>
+    <string name="delete_book">Delete Book</string>
+    <string name="book_stats">Book Stats</string>
+    <string name="your_stats">Your Stats</string>
+    <string name="your_reading">You are reading</string>
+    <string name="books">books</string>
+    <string name="your_have_read">You have Read</string>
+</resources>

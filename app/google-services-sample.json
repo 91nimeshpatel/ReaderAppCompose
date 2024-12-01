@@ -1,0 +1,22 @@
+// app/google-services-sample.json
+{
+  "project_info": {
+    "project_id": "YOUR_PROJECT_ID",
+    "storage_bucket": "YOUR_BUCKET.package.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:000000000000:android:aaaaaaaaaaaaaaaaaaaa",
+        "android_client_info": {
+          "package_name": "YOUR_PACKAGE_NAME"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "YOUR_API_KEY"
+        }
+      ]
+    }
+  ]
+}

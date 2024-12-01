@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="ic_launcher_background">#F4F4F4</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="white">#FFFFFFFF</color>
+    <string name="action">action</string>
+    <string name="app_name">ReaderApp</string>
+    <string name="book_stats">Book Stats</string>
+    <string name="books">books</string>
+    <string name="delete_book">Delete Book</string>
+    <string name="gcm_defaultSenderId" translatable="false">706653750218</string>
+    <string name="google_api_key" translatable="false">AIzaSyC5uOdvlTIQdH8RWAddaSR0CXanW0jQ0EY</string>
+    <string name="google_app_id" translatable="false">1:706653750218:android:c309f9e9bb9cbe8c8a0533</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyC5uOdvlTIQdH8RWAddaSR0CXanW0jQ0EY</string>
+    <string name="google_storage_bucket" translatable="false">readerapp-91ab3.firebasestorage.app</string>
+    <string name="project_id" translatable="false">readerapp-91ab3</string>
+    <string name="sure">Sure</string>
+    <string name="your_have_read">You have Read</string>
+    <string name="your_reading">You are reading</string>
+    <string name="your_stats">Your Stats</string>
+    <style name="Theme.ReaderApp" parent="android:Theme.Material.Light.NoActionBar"/>
+</resources>
