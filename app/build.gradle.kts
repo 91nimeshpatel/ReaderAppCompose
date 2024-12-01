@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.hilt.android)
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    alias(libs.plugins.gms.services)
 }
 
 android {
@@ -72,6 +73,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.auth)
 
     //Dagger - Hilt
     implementation(libs.hilt.android)

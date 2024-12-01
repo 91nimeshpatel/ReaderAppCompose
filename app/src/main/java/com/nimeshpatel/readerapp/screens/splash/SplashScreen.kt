@@ -25,7 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.ktx.Firebase
 import com.nimeshpatel.readerapp.component.ReaderLogo
+import com.nimeshpatel.readerapp.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
 /**
@@ -45,6 +48,10 @@ fun SplashScreen(navController: NavController = rememberNavController()) {
                 })
         )
         delay(2000L)
+
+        if(FirebaseAuth.getInstance().currentUser?.email.isNullOrEmpty())
+            navController.navigate(ReaderScreens.LoginScreen.name)
+        else navController.navigate(ReaderScreens.HomeScreen.name)
     }
 
     SplashView(navController,scale)
