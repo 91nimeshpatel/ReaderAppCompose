@@ -42,7 +42,6 @@ class MainActivity : ComponentActivity() {
                     Column(
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier.padding(10.dp)
                     ) {
 
                         ReaderNavigation()
