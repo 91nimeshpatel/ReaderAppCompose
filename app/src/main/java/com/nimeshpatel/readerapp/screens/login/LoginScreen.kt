@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nimeshpatel.readerapp.component.ReaderLogo
+import com.nimeshpatel.readerapp.navigation.ReaderScreens
 import com.nimeshpatel.readerapp.ui.theme.EmailInputField
 import com.nimeshpatel.readerapp.ui.theme.PasswordInputField
 import com.nimeshpatel.readerapp.ui.theme.SubmitButton
@@ -54,10 +55,15 @@ fun LoginScreen(
 
             if (showLoginForm.value) {
                 UserForm(isLoading = false) { email, password ->
-
+                    loginViewModel.loginUser(email,password){
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             } else {
                 UserForm(isLoading = false, isCreateAccount = true) { email, password ->
+                    loginViewModel.createUser(email,password){
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             }
 
@@ -108,7 +114,7 @@ fun UserForm(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     Spacer(modifier = Modifier.height(50.dp))
-    
+
     if (isCreateAccount) {
         Text(
             text = "Please enter a valid email and password that is at least 6 characters",
