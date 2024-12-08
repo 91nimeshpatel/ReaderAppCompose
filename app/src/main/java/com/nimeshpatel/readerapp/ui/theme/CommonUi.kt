@@ -1,23 +1,34 @@
 package com.nimeshpatel.readerapp.ui.theme
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.unit.dp
 
 
 /**
@@ -34,6 +45,7 @@ fun CommonInputField(
     visualTransformation: VisualTransformation = VisualTransformation.None,
     trailingIcon: @Composable (() -> Unit)? = null,
     keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     isSingleLine: Boolean = true,
 ) {
     OutlinedTextField(
@@ -45,6 +57,7 @@ fun CommonInputField(
         visualTransformation = visualTransformation,
         trailingIcon = trailingIcon,
         keyboardOptions = keyboardOptions,
+        keyboardActions = keyboardActions,
         colors = TextFieldDefaults.colors(
             focusedTextColor = Color.Blue,
             focusedLabelColor = Color.Blue,
@@ -65,7 +78,7 @@ fun EmailInputField(
     onValueChange: (String) -> Unit,
     maxLength: Int = 50,
     imeAction: ImeAction = ImeAction.Done,
-
+    keyboardActions: KeyboardActions = KeyboardActions.Default,
     ) {
     CommonInputField(
         modifier = modifier,
@@ -79,7 +92,8 @@ fun EmailInputField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Email,
             imeAction = imeAction
-        )
+        ),
+        keyboardActions = keyboardActions
     )
 }
 
@@ -89,7 +103,8 @@ fun PasswordInputField(
     value: String,
     onValueChange: (String) -> Unit,
     maxLength: Int = 15,
-    imeAction: ImeAction = ImeAction.Done
+    imeAction: ImeAction = ImeAction.Done,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
 ) {
     var passwordVisible by remember { mutableStateOf(false) }
 
@@ -113,7 +128,8 @@ fun PasswordInputField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Password,
             imeAction = imeAction
-        )
+        ),
+        keyboardActions = keyboardActions
     )
 }
 
@@ -123,7 +139,9 @@ fun SearchInputField(
     value: String,
     onValueChange: (String) -> Unit,
     maxLength: Int = 50,
-    imeAction: ImeAction = ImeAction.Search
+    imeAction: ImeAction = ImeAction.Search,
+    keyboardActions: KeyboardActions = KeyboardActions.Default
+
 ) {
     CommonInputField(
         modifier = modifier,
@@ -142,6 +160,32 @@ fun SearchInputField(
         keyboardOptions = KeyboardOptions.Default.copy(
             keyboardType = KeyboardType.Text,
             imeAction = imeAction
-        )
+        ),
+        keyboardActions = keyboardActions
     )
+}
+
+@Composable
+fun SubmitButton(
+    text: String,
+    isLoading: Boolean = false,
+    isValidInput: Boolean = false,
+    onClick: () -> Unit
+) {
+
+    Button(
+        modifier = Modifier
+            .padding(3.dp)
+            .fillMaxWidth(),
+        shape = CircleShape,
+        enabled = !isLoading && isValidInput,
+        onClick = onClick
+    ) {
+        if (isLoading) CircularProgressIndicator(modifier = Modifier.size(25.dp))
+        Text(
+            text = text,
+            modifier = Modifier.padding(5.dp)
+        )
+    }
+
 }
