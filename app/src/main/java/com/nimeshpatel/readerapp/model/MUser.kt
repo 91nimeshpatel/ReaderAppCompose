@@ -1,4 +1,4 @@
-package com.nimeshpatel.readerapp.data
+package com.nimeshpatel.readerapp.model
 
 import com.google.firebase.firestore.QueryDocumentSnapshot
 

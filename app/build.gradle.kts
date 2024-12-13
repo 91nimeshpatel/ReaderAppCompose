@@ -80,6 +80,15 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth)
 
+    // Retrofit
+    implementation(libs.retrofit)
+
+    // OkHttp
+    implementation(libs.okhttp)
+
+    // JSON Converter
+    implementation(libs.converter.gson)
+
     //Dagger - Hilt
     implementation(libs.hilt.android)
     kapt(libs.dagger.hilt.android.compiler)
