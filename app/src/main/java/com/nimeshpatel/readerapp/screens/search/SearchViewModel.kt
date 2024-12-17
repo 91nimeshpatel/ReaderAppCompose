@@ -1,8 +1,11 @@
 package com.nimeshpatel.readerapp.screens.search
 
 import android.util.Log
+import androidx.compose.runtime.*
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nimeshpatel.readerapp.model.Item
 import com.nimeshpatel.readerapp.repository.BookRepository
 import com.nimeshpatel.readerapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +22,8 @@ class SearchViewModel @Inject constructor(
     private val repository: BookRepository
 ) : ViewModel() {
 
+    var list: List<Item> by mutableStateOf(listOf())
+
     init {
         loadBooks()
     }
@@ -27,7 +32,7 @@ class SearchViewModel @Inject constructor(
         searchBooks("android")
     }
 
-    private fun searchBooks(query: String) {
+    fun searchBooks(query: String) {
         viewModelScope.launch(Dispatchers.Default) {
             if (query.isEmpty()) {
                 return@launch
@@ -36,6 +41,7 @@ class SearchViewModel @Inject constructor(
                 when (val response = repository.getBooks(query)) {
                     is Resource.Success -> {
                         Log.e("SearchViewModel", "FetchBooks: Success ${response.data?.size}")
+                        list = response.data!!
                     }
 
                     is Resource.Error -> {

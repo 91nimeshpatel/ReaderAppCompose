@@ -1,9 +1,11 @@
 package com.nimeshpatel.readerapp.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.nimeshpatel.readerapp.screens.details.BookDetailScreen
 import com.nimeshpatel.readerapp.screens.home.HomeScreen
 import com.nimeshpatel.readerapp.screens.login.LoginScreen
@@ -23,33 +25,45 @@ fun ReaderNavigation() {
         navController = navController, startDestination = ReaderScreens.SplashScreen.name
     ) {
 
-        composable(ReaderScreens.SplashScreen.name){
-            SplashScreen(navController = navController
+        composable(ReaderScreens.SplashScreen.name) {
+            SplashScreen(
+                navController = navController
             )
         }
 
-        composable(ReaderScreens.LoginScreen.name){
-            LoginScreen(navController = navController
+        composable(ReaderScreens.LoginScreen.name) {
+            LoginScreen(
+                navController = navController
             )
         }
-        composable(ReaderScreens.HomeScreen.name){
-            HomeScreen(navController = navController
+        composable(ReaderScreens.HomeScreen.name) {
+            HomeScreen(
+                navController = navController
             )
         }
-        composable(ReaderScreens.SearchScreen.name){
-            SearchScreen(navController = navController
+        composable(ReaderScreens.SearchScreen.name) {
+            SearchScreen(
+                navController = navController
             )
         }
-        composable(ReaderScreens.BookDetailScreen.name){
-            BookDetailScreen(navController = navController
+        composable("${ReaderScreens.BookDetailScreen.name}/{bookId}", arguments = listOf(
+            navArgument("bookId") { type = NavType.StringType }
+        )) { backStackEntry ->
+            backStackEntry.arguments?.getString("bookId").let {
+                BookDetailScreen(
+                    navController = navController,
+                    bookId = it.toString()
+                )
+            }
+        }
+        composable(ReaderScreens.BookStatsScreen.name) {
+            BookStatusScreen(
+                navController = navController
             )
         }
-        composable(ReaderScreens.BookStatsScreen.name){
-            BookStatusScreen(navController = navController
-            )
-        }
-        composable(ReaderScreens.BookUpdateScreen.name){
-            BookDetailScreen(navController = navController
+        composable(ReaderScreens.BookUpdateScreen.name) {
+            BookDetailScreen(
+                navController = navController
             )
         }
 

@@ -95,4 +95,10 @@ dependencies {
     kapt(libs.androidx.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
+    implementation(libs.accompanist.systemuicontroller)
+
+
 }
