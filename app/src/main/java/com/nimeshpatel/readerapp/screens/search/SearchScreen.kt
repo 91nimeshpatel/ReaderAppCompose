@@ -49,7 +49,6 @@ import com.nimeshpatel.readerapp.ui.theme.SearchInputField
  * Created by Nimesh Patel on 01-Dec-24.
  * Purpose:
  */
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SearchScreen(
     label: String = "",

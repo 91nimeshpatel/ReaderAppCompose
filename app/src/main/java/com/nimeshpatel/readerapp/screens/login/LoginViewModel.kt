@@ -17,7 +17,10 @@ import javax.inject.Inject
  * Purpose:
  */
 @HiltViewModel
-class LoginViewModel @Inject constructor(private val auth: FirebaseAuth) : ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val auth: FirebaseAuth,
+    private val firebaseFireStore: FirebaseFirestore
+) : ViewModel() {
 
     private val _loading = MutableLiveData<Boolean>(false)
     var loading: LiveData<Boolean> = _loading
@@ -52,7 +55,7 @@ class LoginViewModel @Inject constructor(private val auth: FirebaseAuth) : ViewM
             id = null
         ).toMap()
 
-        FirebaseFirestore.getInstance()
+        firebaseFireStore
             .collection("users").add(user)
     }
 

@@ -29,6 +29,10 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideFirebaseFireStore(): FirebaseFirestore = FirebaseFirestore.getInstance()
+
+    @Singleton
+    @Provides
     fun provideBookApi(): BooksApi {
         return Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -39,8 +43,8 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideFireBookRepository() =
-        FireRepository(queryBooks = FirebaseFirestore.getInstance().collection("books"))
+    fun provideFireBookRepository(firebaseFireStore: FirebaseFirestore) =
+        FireRepository(queryBooks = firebaseFireStore.collection("books"))
 
 
 }
