@@ -33,7 +33,7 @@ class BookDetailViewModel @Inject constructor(
 
     fun saveBookInfo(
         bookData: VolumeInfo?, googleBookId: String?,
-        processAction: () -> Unit = {}
+        processAction: (String) -> Unit = {}
     ) {
         val bookToSave: MutableMap<String, Any> = HashMap()
 
@@ -49,24 +49,41 @@ class BookDetailViewModel @Inject constructor(
         bookToSave["google_book_id"] = googleBookId.toString()
         bookToSave["user_id"] = auth.currentUser?.uid.toString()
 
-        if (bookToSave.isNotEmpty()) {
-            firebaseFireStore.collection("books").add(bookToSave)
-                .addOnSuccessListener { documentRefrence ->
-                    val stringId = documentRefrence.id
-                    firebaseFireStore.collection("books").document(stringId)
-                        .update(hashMapOf("id" to stringId) as Map<String, Any>)
-                        .addOnCompleteListener {
-                            if (it.isSuccessful) {
-                                processAction.invoke()
-                                Log.i(TAG, "book successfully Added")
+        if (!googleBookId.isNullOrEmpty()) {
+            // Check if the book already exists
+            firebaseFireStore.collection("books")
+                .whereEqualTo("google_book_id", googleBookId)
+                .whereEqualTo("user_id", auth.currentUser?.uid.toString())
+                .get()
+                .addOnSuccessListener { querySnapshot ->
+                    if (querySnapshot.isEmpty) {
+                        // Book does not exist, proceed to save
+                        firebaseFireStore.collection("books").add(bookToSave)
+                            .addOnSuccessListener { documentReference ->
+                                val stringId = documentReference.id
+                                firebaseFireStore.collection("books").document(stringId)
+                                    .update(hashMapOf("id" to stringId) as Map<String, Any>)
+                                    .addOnCompleteListener {
+                                        if (it.isSuccessful) {
+                                            processAction.invoke("Book successfully added")
+                                            Log.i(TAG, "Book successfully added")
+                                        }
+                                    }.addOnFailureListener {
+                                        Log.w(TAG, "Error updating document ", it)
+                                    }
+                            }.addOnFailureListener { e ->
+                                Log.w(TAG, "Error adding document", e)
                             }
-                        }.addOnFailureListener{
-                            Log.w(TAG, "Error updating Document ", it)
-                        }
-                }.addOnFailureListener { e->
-                    Log.w(TAG, "Error adding document", e)
+                    } else {
+                        processAction.invoke("Book already exists in the database")
+                        Log.i(TAG, "Book already exists in the database")
+                    }
+                }.addOnFailureListener { e ->
+                    Log.w(TAG, "Error checking existing document", e)
                 }
+        } else {
+            Log.w(TAG, "Invalid googleBookId")
         }
-
     }
+
 }

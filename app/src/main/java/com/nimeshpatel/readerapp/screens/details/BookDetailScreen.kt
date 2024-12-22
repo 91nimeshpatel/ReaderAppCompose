@@ -1,5 +1,6 @@
 package com.nimeshpatel.readerapp.screens.details
 
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -69,7 +70,7 @@ fun ShowBookDetails(
     bookInfo: Resource<Item>,
     bookDetailViewModel: BookDetailViewModel
 ) {
-
+    val context = LocalContext.current
     val bookData = bookInfo.data?.volumeInfo
     val googleBookId = bookInfo.data?.id
 
@@ -134,6 +135,7 @@ fun ShowBookDetails(
     ) {
         RoundedButton(label = "Save") {
             bookDetailViewModel.saveBookInfo(bookData,googleBookId){
+                Toast.makeText(context,it,Toast.LENGTH_SHORT).show()
                 navController.popBackStack()
             }
         }
