@@ -12,6 +12,7 @@ import com.nimeshpatel.readerapp.screens.login.LoginScreen
 import com.nimeshpatel.readerapp.screens.search.SearchScreen
 import com.nimeshpatel.readerapp.screens.splash.SplashScreen
 import com.nimeshpatel.readerapp.screens.stats.BookStatusScreen
+import com.nimeshpatel.readerapp.screens.update.BookUpdateScreen
 
 /**
  * Created by Nimesh Patel on 21-Nov-24.
@@ -61,7 +62,22 @@ fun ReaderNavigation() {
                 navController = navController
             )
         }
-        composable(ReaderScreens.BookUpdateScreen.name) {
+        composable(route = "${ReaderScreens.BookUpdateScreen.name}/{bookItemId}",
+            arguments = listOf(
+                navArgument("bookItemId"){
+                    type = NavType.StringType
+                }
+            )
+        ) {backStackEntry ->
+            backStackEntry.arguments?.getString("bookItemId").let {
+                BookUpdateScreen(
+                    navController = navController,
+                    bookItemId =it.toString()
+                )
+            }
+        }
+
+        composable(ReaderScreens.BookDetailScreen.name){
             BookDetailScreen(
                 navController = navController
             )

@@ -1,20 +1,27 @@
 package com.nimeshpatel.readerapp.screens.home
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,12 +35,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.google.firebase.auth.FirebaseAuth
 import com.nimeshpatel.readerapp.R
+import com.nimeshpatel.readerapp.component.HorizontalScrollComponent
+import com.nimeshpatel.readerapp.component.TitleSection
 import com.nimeshpatel.readerapp.navigation.ReaderScreens
 
 /**
@@ -56,7 +67,11 @@ fun HomeScreen(
             }
         }
     ) { innerPadding ->
-        Surface(modifier = Modifier.fillMaxSize().padding(paddingValues = innerPadding)) {
+        Surface(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues = innerPadding)
+        ) {
             HomeContent(navController, homeViewModel)
         }
     }
@@ -84,7 +99,63 @@ fun FABContent(onTap: (String) -> Unit) {
 
 @Composable
 fun HomeContent(navController: NavController, homeViewModel: HomeViewModel) {
+    homeViewModel.fetchBookByUser()
+    Column(
+        modifier = Modifier.padding(2.dp),
+        verticalArrangement = Arrangement.SpaceEvenly
+    ) {
+        Row(modifier = Modifier.align(alignment = Alignment.Start)) {
 
+            TitleSection(label = "Your reading \n" + "activity right now...")
+            Spacer(modifier = Modifier.fillMaxWidth(fraction = 0.7f))
+            Column {
+                Icon(
+                    imageVector = Icons.Filled.AccountCircle,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clickable {
+                            navController.navigate(ReaderScreens.BookStatsScreen.name)
+
+                        }
+                        .size(45.dp),
+                    tint = MaterialTheme.colorScheme.secondaryContainer
+                )
+                Text(
+                    text = homeViewModel.currentUserName,
+                    modifier = Modifier.padding(2.dp),
+                    color = Color.Red,
+                    fontSize = 15.sp,
+                    maxLines = 1,
+                    overflow = TextOverflow.Clip
+                )
+                HorizontalDivider()
+            }
+        }
+        ReadingRightNowArea(navController,homeViewModel)
+        TitleSection(label = "Reading List")
+        BookListArea(navController,homeViewModel)
+    }
+}
+
+@Composable
+fun BookListArea(navController: NavController, homeViewModel: HomeViewModel) {
+    val addedBooks = homeViewModel.listOfBooks.filter { books ->
+        books.startedReading == null && books.finishedReading == null
+    }
+    HorizontalScrollComponent(addedBooks) {
+        navController.navigate(ReaderScreens.BookUpdateScreen.name + "/$it")
+    }
+}
+
+@Composable
+fun ReadingRightNowArea(navController: NavController, homeViewModel: HomeViewModel) {
+   val readingList = homeViewModel.listOfBooks.filter { books->
+       books.startedReading != null && books.finishedReading == null
+   }
+
+    HorizontalScrollComponent(readingList) {
+        navController.navigate(ReaderScreens.BookUpdateScreen.name +"/$it")
+    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

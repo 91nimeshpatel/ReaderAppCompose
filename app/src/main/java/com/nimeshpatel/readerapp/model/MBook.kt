@@ -14,6 +14,7 @@ data class MBook(
 
     @Exclude var id: String? = null,
     var title: String? = null,
+    var authors: String? = null,
     var notes: String? = null,
 
     @get:PropertyName("book_photo_url")

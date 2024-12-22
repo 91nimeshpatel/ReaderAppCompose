@@ -49,21 +49,24 @@ class BookDetailViewModel @Inject constructor(
         bookToSave["google_book_id"] = googleBookId.toString()
         bookToSave["user_id"] = auth.currentUser?.uid.toString()
 
-        firebaseFireStore.collection("books").add(bookToSave)
-            .addOnSuccessListener { documentRefrence ->
-                val stringId = documentRefrence.id
-                firebaseFireStore.collection("books").document(stringId)
-                    .update(hashMapOf("id" to stringId) as Map<String, Any>)
-                    .addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            processAction.invoke()
-                            Log.i(TAG, "book successfully Added")
+        if (bookToSave.isNotEmpty()) {
+            firebaseFireStore.collection("books").add(bookToSave)
+                .addOnSuccessListener { documentRefrence ->
+                    val stringId = documentRefrence.id
+                    firebaseFireStore.collection("books").document(stringId)
+                        .update(hashMapOf("id" to stringId) as Map<String, Any>)
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                processAction.invoke()
+                                Log.i(TAG, "book successfully Added")
+                            }
+                        }.addOnFailureListener{
+                            Log.w(TAG, "Error updating Document ", it)
                         }
-                    }.addOnFailureListener{
-                        Log.w(TAG, "Error updating Document ", it)
-                    }
-            }.addOnFailureListener { e->
-                Log.w(TAG, "Error adding document", e)
-            }
+                }.addOnFailureListener { e->
+                    Log.w(TAG, "Error adding document", e)
+                }
+        }
+
     }
 }
